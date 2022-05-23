@@ -1,0 +1,85 @@
+#Roll no- 220340320050
+# section 1
+create database EXAM;
+USE EXAM;
+create table DEPT(
+DEPTNO int,
+DNAME varchar(15),
+LOC varchar(10)
+);
+insert into DEPT(DEPTNO, DNAME, LOC ) 
+values(10,'ACCOUNTING','NEW YORK'),
+	(20,'RESEARCH','DALLAS'),
+    (30,'SALES','CHICAGO'),
+    (40,'OPERATIONS','BOSTON');
+select * FROM dept;
+
+create table EMP(
+EMPNO int,
+ENAME varchar(10),
+JOB varchar(9),
+HIREDATE date,
+SAL float,
+COMM float,
+DEPTNO INT
+);
+
+insert into EMP(EMPNO, ENAME, JOB, HIREDATE, SAL, COMM, DEPTNO ) 
+values(7839,'KING','MANAGER','1991-11-17',5000,null,10),
+	(7698,'BLACK','CLERK','1981-05-01',2850,null,30),
+    (7782,'CLARK','MANAGER','1982-06-09',2450,null,10),
+    (7566,'JONES','CLERK','1981-04-02',2975,null,20),
+    (7654,'MARTIN','SALESMAN','1981-09-28',1250,1400,30),
+    (7499,'ALLEN','SALESMAN','1981-02-20',1600,300,30);
+
+select * FROM EMP;
+# 3. Display all the employees where SAL between 2500 and 5000 (inclusive of both).
+select ENAME FROM EMP WHERE SAL between 2500 AND 5000;
+#4 	Display all the ENAMEs in descending order of ENAME.
+select ENAME FROM EMP order by ENAME DESC;
+#5 5. Display all the JOBs in lowercase
+select lower(JOB) from EMP;
+#6 Display the ENAMEs and the lengths of the ENAMEs.
+select ENAME ,length(ENAME) FROM EMP;
+#7	Display the DEPTNO and the count of employees who belong to that DEPTNO .  
+select DEPTNO,count(DEPTNO) FROM EMP group by DEPTNO;
+#8 Display the DNAMEs and the ENAMEs who belong to that DNAME
+select ENAME,DNAME FROM EMP,DEPT where EMP.DEPTNO=DEPT.DEPTNO;
+#9	Display the position at which the string ‘AR’ occurs in the ename.
+select instr(ENAME,'AR') FROM EMP;
+#10	Display the HRA for each employee given that HRA is 20% of SAL.
+select SAL,SAL*.20 AS HRA FROM EMP;
+
+# SECTION 2 QUE 1
+create TABLE TEMPP
+(
+STRING1 varchar(15),
+STRING2 varchar(15),
+RESULT varchar(15)
+);
+
+DELIMITER //
+create procedure PROC1(STR1 varchar(15), STR2 varchar(15))
+begin
+	declare X int;
+    set X = instr(STR2, STR1);
+    IF X>0 THEN 
+		insert into TEMPP(STRING1 ,STRING2 , RESULT) values
+        (STR1, STR2 , 'EXISTS');
+	else
+        insert into tempp(STRING1, STRING2, RESULT) values
+        (STR1, STR2, 'NOT EXISTS');
+	end if;
+end; //
+DELIMITER ;
+
+select * from tempp;
+call PROC1('DAC','CDAC');
+
+
+
+# section 2 que 2
+create table temp
+(res varchar(10) );
+
+create function FUNC1()
